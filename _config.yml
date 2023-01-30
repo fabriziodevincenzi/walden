@@ -1,0 +1,45 @@
+# Site
+name: "Indie Bees"
+description: "Siate indipendenti. Sempre."
+logo: "assets/images/logo.png"
+favicon: "assets/images/favicon.ico"
+email: "fabrizio@indiebees.it"
+mailchimp-list: "https://wowthemes.us11.list-manage.com/subscribe/post?u=8aeb20a530e124561927d3bd8&amp;id=8c3d2d214b"
+
+include: ["_pages"]
+permalink: /:categories/:title/
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-paginate
+  - jekyll-seo-tag
+
+authors:
+  fabrizio:
+    name: Fabrizio
+    site: https://www.fabriziodevincenzi.com
+    avatar: /assets/images/avatar-fabrizio.JPG
+    bio: "Hi, I am Fabrizio!"
+    email: hello@fabriziodevincenzi.com
+    twitter: https://twitter.com/gnoccodimalga
+
+# Defaults
+defaults:
+  # all posts
+  - scope:
+      path: "_posts"
+    values:
+      layout: post
+      author: fabrizio
+      avatar: /assets/images/avatar-fabrizio.JPG
+
+  # all pages
+  - scope:
+      path: "_pages"
+    values:
+      layout: page
+
+# Paginate
+paginate: 10
