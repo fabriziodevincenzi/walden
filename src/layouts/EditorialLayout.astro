@@ -1,0 +1,62 @@
+---
+// src/layouts/EditorialLayout.astro
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  frontmatter: {
+    title: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+---
+
+<BaseLayout title={frontmatter.title}>
+  <article class="editorial">
+    <h1 class="editorial-title">{frontmatter.title}</h1>
+    <div class="editorial-content">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .editorial {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .editorial-title {
+    font-family: "Fraunces", serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 2rem;
+    color: #333;
+  }
+
+  .editorial-content {
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+
+  .editorial-content :global(p) {
+    margin-bottom: 1.5rem;
+  }
+
+  .editorial-content :global(h2) {
+    font-family: "Fraunces", serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+
+  .editorial-content :global(blockquote) {
+    border-left: 4px solid #333;
+    padding-left: 1rem;
+    font-style: italic;
+    margin: 1.5rem 0;
+  }
+</style>

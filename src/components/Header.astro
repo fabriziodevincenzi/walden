@@ -1,0 +1,47 @@
+---
+// src/components/Header.astro
+---
+
+<header class="header">
+	<div class="responsive-wrapper">
+	  <div class="header-content">
+		<div class="header-left">
+		  <a href="/" class="site-logo">Vita nei boschi</a>
+		</div>
+		<div class="header-right">
+		  <button class="header-menu-button">Menu</button>
+		</div>
+	  </div>
+	</div>
+  </header>
+  
+  <style>
+	.header {
+	  background-color: #f8f3eb;
+	  border-bottom: 1px solid #e0d8c9;
+	  padding: 1.5rem 0;
+	}
+  
+	.header-content {
+	  display: flex;
+	  justify-content: space-between;
+	  align-items: center;
+	}
+  
+	.site-logo {
+	  font-family: "Fraunces", serif;
+	  font-size: 1.5rem;
+	  font-weight: 700;
+	  color: #333;
+	  text-decoration: none;
+	}
+  
+	.header-menu-button {
+	  background: none;
+	  border: none;
+	  font-family: "DM Sans", sans-serif;
+	  font-size: 1rem;
+	  cursor: pointer;
+	  padding: 0.5rem 1rem;
+	}
+  </style>

@@ -1,0 +1,38 @@
+---
+// src/pages/[...slug].astro
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EditorialLayout from '../layouts/EditorialLayout.astro';
+
+export async function getStaticPaths() {
+  const allArticles = await getCollection('editoriali');
+  const allReportages = await getCollection('reportage');
+  const allExcursions = await getCollection('escursioni');
+  const allMedia = await getCollection('media');
+
+  return [
+    ...allArticles.map(entry => ({
+      params: { slug: `editoriali/${entry.slug}` }, props: { entry, type: 'editorial' },
+    })),
+    ...allReportages.map(entry => ({
+      params: { slug: `reportage/${entry.slug}` }, props: { entry, type: 'reportage' },
+    })),
+    ...allExcursions.map(entry => ({
+      params: { slug: `escursioni/${entry.slug}` }, props: { entry, type: 'excursion' },
+    })),
+    ...allMedia.map(entry => ({
+      params: { slug: `media/${entry.slug}` }, props: { entry, type: 'media' },
+    })),
+  ];
+}
+
+const { entry, type } = Astro.props;
+const { Content } = await entry.render();
+
+const Layout = type === 'editorial' ? EditorialLayout : BaseLayout;
+---
+
+<Layout title={entry.data.title} frontmatter={entry.data}>
+  <Content />
+</Layout>
+

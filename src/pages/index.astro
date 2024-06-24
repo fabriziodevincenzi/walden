@@ -1,0 +1,75 @@
+---
+// src/pages/index.astro
+import Layout from '../layouts/Layout.astro';
+import ArticlePreview from '../components/ArticlePreview.astro';
+import ReportagePreview from '../components/ReportagePreview.astro';
+import ExcursionPreview from '../components/ExcursionPreview.astro';
+import MediaPreview from '../components/MediaPreview.astro';
+import { getCollection } from 'astro:content';
+
+// Recupera i contenuti dalle collezioni
+const editoriali = await getCollection('editoriali');
+const reportages = await getCollection('reportage');
+const excursions = await getCollection('escursioni');
+const mediaItems = await getCollection('media');
+
+// Ordina i contenuti per data di pubblicazione (dal più recente)
+const sortByDate = (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
+editoriali.sort(sortByDate);
+reportages.sort(sortByDate);
+excursions.sort(sortByDate);
+mediaItems.sort(sortByDate);
+---
+
+<Layout title="Vita nei boschi">
+  <div class="home-layout">
+    <div class="column editorial-column">
+      {editoriali[0] && <ArticlePreview article={editoriali[0]} />}
+    </div>
+
+    <div class="column reportage-column">
+      {reportages[0] && <ReportagePreview reportage={reportages[0]} />}
+    </div>
+
+    <div class="column excursions-column">
+      {excursions.slice(0, 2).map(excursion => (
+        <ExcursionPreview excursion={excursion} />
+      ))}
+    </div>
+
+    <div class="column media-column">
+      {mediaItems.slice(0, 3).map(item => (
+        <MediaPreview item={item} />
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .home-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .column:not(:last-child) {
+    border-right: 1px solid #e0d8c9;
+    padding-right: 2rem;
+  }
+
+  .column:not(:first-child) {
+    padding-left: 0rem;
+  }
+
+  /* Rimuovi i margini interni dai componenti figli */
+  :global(.column > *) {
+    margin-left: 0;
+    margin-right: 0;
+  }
+</style>

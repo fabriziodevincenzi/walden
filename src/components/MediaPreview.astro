@@ -1,0 +1,116 @@
+---
+// src/components/MediaPreview.astro
+import { formatDate } from '../utils/dateFormatter';
+
+interface Props {
+  item: {
+    slug: string;
+    data: {
+      title: string;
+      pubDate: Date;
+      description: string;
+      author: string;
+      image?: {
+        url: string;
+        alt: string;
+      };
+      mediaType: 'Video' | 'Podcast';
+    };
+  };
+}
+
+const { item } = Astro.props;
+const { title, pubDate, description, author, image, mediaType } = item.data;
+---
+
+<article class="media-item">
+  <p class="media-type">{item.data.mediaType}</p>
+  <h2 class="media-title">
+    <a href={`/media/${item.slug}`} class="media-link">{item.data.title}</a>
+  </h2>
+  <p class="media-description">{item.data.description}</p>
+  <div class="author-info">
+    <p class="author-name">{item.data.author}</p>
+    <p class="author-title">{item.data.authorTitle}</p>
+  </div>
+</article>
+
+<style>
+  .article {
+    margin-bottom: 2rem;
+  }
+
+  .media-type {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+    margin-block-start: 1em;
+  }
+
+  .media-type svg {
+    width: 24px;
+    height: 24px;
+    margin-right: 0.5rem;
+  }
+
+  .media-title {
+    font-family: "Fraunces", serif;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 0.5rem;
+  }
+
+  .article-title--medium {
+    font-size: 1.5rem;
+  }
+
+  .media-link {
+    color: #000000;
+    text-decoration: none;
+  }
+
+  .article-excerpt {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  .author-info {
+    margin-top: 1rem;
+  }
+
+  /** .article-author-info dt {
+    font-weight: 600;
+  }
+  */
+
+  .author-name {
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .author-title {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0.2rem 0 0 0;
+  }
+
+  .article-author-info dd {
+    font-size: 0.875rem;
+    color: #666;
+  }
+
+  .media-item {
+    padding-bottom: 2rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #e0d8c9;
+  }
+
+  .media-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+</style>
