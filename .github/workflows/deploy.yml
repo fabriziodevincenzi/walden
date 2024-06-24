@@ -11,6 +11,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Clean npm cache
+        run: npm cache clean --force
+
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
