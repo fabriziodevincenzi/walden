@@ -28,3 +28,5 @@ jobs:
           branch: gh-pages
           folder: dist
           token: ${{ secrets.GITHUB_TOKEN }}
+          clean: true
+          single-commit: true
