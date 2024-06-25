@@ -35,7 +35,6 @@ jobs:
           folder: dist
           clean-exclude: |
           CNAME
-          clean-exclude: |
           .nojekyll
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: true
