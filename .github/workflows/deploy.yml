@@ -38,3 +38,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: true
           single-commit: true
+
+      - name: Copy .nojekyll file
+        run: cp public/.nojekyll dist/
