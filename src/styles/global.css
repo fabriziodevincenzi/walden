@@ -7,6 +7,14 @@
 	box-sizing: border-box;
 }
 
+@font-face {
+	font-family: 'Fraunces', Georgia, serif;
+	src: url('/path/to/Fraunces-Regular.woff2') format('woff2'),
+		 url('/path/to/Fraunces-Regular.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+  }
+
 body {
 	font-family: "DM Sans", sans-serif;
 	font-size: 1rem;

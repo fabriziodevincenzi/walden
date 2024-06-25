@@ -58,6 +58,22 @@ mediaItems.sort(sortByDate);
     align-items: stretch;
   }
 
+  .column:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  @media (min-width: 768px) {
+    .home-layout {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .home-layout {
+      grid-template-columns: 1fr 2fr 1fr 1fr;
+    }
+
   .column:not(:last-child) {
     border-right: 1px solid #e0d8c9;
     padding-right: 2rem;

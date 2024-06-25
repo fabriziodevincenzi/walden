@@ -3,23 +3,38 @@
 ---
 
 <header class="header">
-	<div class="responsive-wrapper">
-	  <div class="header-content">
-		<div class="header-left">
-		  <a href="/" class="site-logo">Vita nei boschi</a>
-		</div>
-		<div class="header-right">
-		  <button class="header-menu-button">Menu</button>
-		</div>
-	  </div>
+	<div class="header-content">
+	  <a href="/" class="logo">Vita nei boschi</a>
+	  <nav class="desktop-nav">
+		<a href="/editoriali">Editoriali</a>
+		<a href="/reportage">Reportage</a>
+		<a href="/escursioni">Escursioni</a>
+		<a href="/media">Media</a>
+	  </nav>
+	  <button class="mobile-menu-button" id="mobileMenuButton">Menu</button>
 	</div>
+	<nav class="mobile-nav" id="mobileNav">
+	  <a href="/editoriali">Editoriali</a>
+	  <a href="/reportage">Reportage</a>
+	  <a href="/escursioni">Escursioni</a>
+	  <a href="/media">Media</a>
+	</nav>
   </header>
+  
+  <script>
+	const mobileMenuButton = document.getElementById('mobileMenuButton');
+	const mobileNav = document.getElementById('mobileNav');
+  
+	mobileMenuButton.addEventListener('click', () => {
+	  mobileNav.classList.toggle('active');
+	});
+  </script>
   
   <style>
 	.header {
+	  padding: 1rem;
 	  background-color: #f8f3eb;
 	  border-bottom: 1px solid #e0d8c9;
-	  padding: 1.5rem 0;
 	}
   
 	.header-content {
@@ -28,7 +43,7 @@
 	  align-items: center;
 	}
   
-	.site-logo {
+	.logo {
 	  font-family: "Fraunces", serif;
 	  font-size: 1.5rem;
 	  font-weight: 700;
@@ -36,12 +51,46 @@
 	  text-decoration: none;
 	}
   
-	.header-menu-button {
+	.desktop-nav {
+	  display: none;
+	}
+  
+	.mobile-menu-button {
 	  background: none;
 	  border: none;
-	  font-family: "DM Sans", sans-serif;
 	  font-size: 1rem;
 	  cursor: pointer;
-	  padding: 0.5rem 1rem;
+	}
+  
+	.mobile-nav {
+	  display: none;
+	  flex-direction: column;
+	  padding: 1rem 0;
+	}
+  
+	.mobile-nav.active {
+	  display: flex;
+	}
+  
+	.mobile-nav a {
+	  padding: 0.5rem 0;
+	  color: #333;
+	  text-decoration: none;
+	}
+  
+	@media (min-width: 768px) {
+	  .mobile-menu-button, .mobile-nav {
+		display: none;
+	  }
+  
+	  .desktop-nav {
+		display: flex;
+		gap: 1rem;
+	  }
+  
+	  .desktop-nav a {
+		color: #333;
+		text-decoration: none;
+	  }
 	}
   </style>
