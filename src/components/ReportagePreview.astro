@@ -19,12 +19,17 @@ interface Props {
 
 const { reportage } = Astro.props;
 const { title, description, author, authorTitle, image } = reportage.data;
+
+import { Image } from '@astrojs/image/components';
+
+
 ---
 
 <article class="article">
   {image && (
     <figure class="article-img">
       <img src={image.url} alt={image.alt} />
+      <Image src={imageUrl} format="webp" width={800} height={600} alt="Descrizione" />
     </figure>
   )}
   <h2 class="article-title article-title--large">
