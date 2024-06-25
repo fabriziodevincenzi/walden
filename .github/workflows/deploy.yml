@@ -34,7 +34,6 @@ jobs:
           branch: gh-pages
           folder: dist
           clean-exclude: |
-          .nojekyll
           CNAME
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: true
