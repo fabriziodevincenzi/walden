@@ -15,6 +15,22 @@
 	font-style: normal;
   }
 
+  @font-face {
+	font-family: 'DM Sans';
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url(https://fonts.gstatic.com/s/dmsans/v11/rP2Hp2ywxg089UriCZOIHQ.woff2) format('woff2');
+  }
+  
+  @font-face {
+	font-family: 'Fraunces';
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url(https://fonts.gstatic.com/s/fraunces/v24/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib14c7qv8oRcTn.woff2) format('woff2');
+  }  
+
 body {
 	font-family: "DM Sans", sans-serif;
 	font-size: 1rem;
@@ -58,7 +74,7 @@ body {
   }
 
   .article-title {
-	font-family: "Fraunces", serif;
+	font-family: "Fraunces", Georgia, serif;
 	font-weight: 700;
 	line-height: 1.25;
   }
