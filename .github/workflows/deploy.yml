@@ -33,6 +33,8 @@ jobs:
         with:
           branch: gh-pages
           folder: dist
+          clean-exclude: |
+          CNAME
           token: ${{ secrets.GITHUB_TOKEN }}
           clean: true
           single-commit: true
