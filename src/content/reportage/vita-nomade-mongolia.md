@@ -1,6 +1,6 @@
 ---
 title: "Vita nomade in Mongolia: tradizioni in un mondo che cambia"
-pubDate: 2023-05-28
+pubDate: 2024-06-24
 description: "Un viaggio tra le steppe della Mongolia alla scoperta della vita dei pastori nomadi"
 author: "Marco Bianchi"
 authorTitle: "Guida ambientale"
