@@ -1,0 +1,15 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import GuidePreview from '../../components/GuidePreview.astro';
+
+const guides = // Fetch delle guide ambientali
+---
+
+<MainLayout title="Guide Ambientali - Vita nei Boschi">
+  <h1>Le nostre Guide Ambientali</h1>
+  <div class="guides-grid">
+    {guides.map(guide => (
+      <GuidePreview guide={guide} />
+    ))}
+  </div>
+</MainLayout>

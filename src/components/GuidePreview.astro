@@ -1,0 +1,10 @@
+---
+const { guide } = Astro.props;
+---
+
+<div class="guide-preview">
+  <img src={guide.image} alt={guide.name} />
+  <h2>{guide.name}</h2>
+  <p>{guide.shortBio}</p>
+  <a href={`/guide/${guide.slug}`}>Scopri di più</a>
+</div>

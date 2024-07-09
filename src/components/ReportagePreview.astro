@@ -1,137 +1,166 @@
 ---
-// src/components/ReportagePreview.astro
-
-interface Props {
-  reportage: {
-    slug: string;
-    data: {
-      title: string;
-      description: string;
-      author: string;
-      authorTitle: string;
-      image?: {
-        url: string;
-        alt: string;
-      };
-    };
-  };
-}
-
 const { reportage } = Astro.props;
-const { title, description, author, authorTitle, image } = reportage.data;
+const { title, pubDate, description, author, image, authorImage } = reportage.data;
 
-import { Image } from '@astrojs/image/components';
-
-
+const formatDate = (date) => {
+  return new Date(date).toLocaleDateString('it-IT', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+};
 ---
 
 <article class="article">
-  {image && (
-    <figure class="article-img">
-      <img src={image.url} alt={image.alt} />
-      <Image src={imageUrl} format="webp" width={800} height={600} alt="Descrizione" />
-    </figure>
-  )}
-  <h2 class="article-title article-title--large">
+  <figure class="article-img">
+    {image && <img src={image.url} alt={image.alt} />}
+  </figure>
+  <h2 class="article-title article-title--medium">
     <a href={`/reportage/${reportage.slug}`} class="article-link">{title}</a>
   </h2>
   <div class="article-excerpt">
     <p>{description}</p>
   </div>
   <div class="article-author">
-    <div class="author-info">
-      <p class="author-name">{author}</p>
-      <p class="author-title">{authorTitle}</p>
+    <div class="article-author-img">
+      {authorImage ? 
+        <img src={authorImage.url} alt={`Foto di ${author}`} /> :
+        <img src="/images/author-placeholder.png" alt={author} />
+      }
+    </div>
+    <div class="article-author-info">
+      <dl>
+        <dt>{author}</dt>
+        <dd>Reporter</dd>
+      </dl>
     </div>
   </div>
 </article>
 
 <style>
   .article {
+    margin-top: 1rem;
     margin-bottom: 2rem;
   }
-
   .article-img {
-    margin-bottom: 1rem;
-    display: block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    unicode-bidi: isolate;
+    margin: 0;
+    padding: 0;
+    width: 100%;
   }
-
   .article-img img {
     width: 100%;
     height: auto;
     object-fit: cover;
-    border-radius: 8px;
+    display: block;
   }
-
   .article-title {
     font-family: "Fraunces", serif;
-    font-weight: 700;
-    line-height: 2.8rem;
-    margin-bottom: 0rem;
+    font-weight: 900;
+    line-height: 1.25;
+    color: #000;
+    margin-top: 1rem;
+    margin-bottom: 0.75rem;
   }
-
-  .article-title--large {
+  .article-title--medium {
     font-size: 1.5rem;
-    display: block;
-    font-size: 2.5em;
-    margin-block-start: 0em;
-    margin-block-end: 0em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
-    unicode-bidi: isolate;
   }
-
   .article-link {
     color: inherit;
     text-decoration: none;
   }
-
   .article-excerpt {
-    font-size: 1rem;
-    line-height: 1.5;
+    font-size: 1.125rem;
+    line-height: 1.4;
     margin-bottom: 1rem;
   }
-
-  .article-author-info {
+  .article-author {
     display: flex;
-    flex-direction: column;
+    align-items: center;
   }
-
-  .author-info {
-    margin-top: 1rem;
+  .article-author-img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-right: 0.5rem;
   }
-  
-  .author-name {
-    font-weight: 600;
+  .article-author-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .article-author-info dl {
     margin: 0;
   }
-
-  .author-title {
-    font-size: 0.9rem;
-    color: #666;
-    margin: 0.2rem 0 0 0;
+  .article-author-info dt {
+    font-weight: 600;
   }
-
-  h2 {
-    display: block;
-    font-size: 2.5em;
-    margin-block-start: 0.83em;
-    margin-block-end: 0.83em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
-    unicode-bidi: isolate;
+  .article-author-info dd {
+    font-size: 0.875em;
+    margin: 0;
   }
+</style>
 
-    /* Assicurati che il contenuto riempia l'intera larghezza disponibile */
-    .article, .reportage, .excursion, .media-item {
+<style>
+  .article {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+  .article-img {
+    margin: 0;
+    padding: 0;
     width: 100%;
   }
-
+  .article-img img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+  }
+  .article-title {
+    font-family: "Fraunces", serif;
+    font-weight: 900;
+    line-height: 1.25;
+    color: #000;
+    margin-top: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  .article-title--medium {
+    font-size: 1.5rem;
+  }
+  .article-link {
+    color: inherit;
+    text-decoration: none;
+  }
+  .article-excerpt {
+    font-size: 1.125rem;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+  .article-author {
+    display: flex;
+    align-items: center;
+  }
+  .article-author-img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-right: 0.5rem;
+  }
+  .article-author-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .article-author-info dl {
+    margin: 0;
+  }
+  .article-author-info dt {
+    font-weight: 600;
+  }
+  .article-author-info dd {
+    font-size: 0.875em;
+    margin: 0;
+  }
 </style>

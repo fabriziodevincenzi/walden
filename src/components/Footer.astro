@@ -1,15 +1,119 @@
 ---
-// src/components/Footer.astro
+const currentYear = new Date().getFullYear();
 ---
 
-<footer>
-	<p>&copy; 2024 Walden. Tutti i diritti riservati.</p>
+<footer class="site-footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>Vita nei Boschi</h3>
+      <p>Esplora la natura, vivi l'avventura</p>
+    </div>
+    <div class="footer-section">
+      <h4>Link Utili</h4>
+      <ul>
+        <li><a href="/chi-siamo">Chi Siamo</a></li>
+        <li><a href="/contatti">Contatti</a></li>
+        <li><a href="/privacy-policy">Privacy Policy</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Seguici</h4>
+      <div class="social-links">
+        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; {currentYear} Vita nei Boschi. Tutti i diritti riservati.</p>
+  </div>
 </footer>
 
 <style>
-	footer {
-		padding: 1rem;
-		background-color: #f0f0f0;
-		text-align: center;
-	}
+  .site-footer {
+    border-top: 1px solid #e0e0e0;
+    padding: 3rem 0 1rem;
+    margin-top: 4rem;
+  }
+
+  .footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .footer-section {
+    flex: 1;
+    min-width: 200px;
+    margin-bottom: 2rem;
+  }
+
+  .footer-section h3, .footer-section h4 {
+    font-family: "DM Sans", sans-serif;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+
+  .footer-section p, .footer-section ul li {
+    font-family: "DM Sans", sans-serif;
+    color: #666;
+  }
+
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-section ul li {
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-section a {
+    color: #666;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .footer-section a:hover {
+    color: #000;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .social-links a {
+    font-size: 1.5rem;
+    color: #666;
+  }
+
+  .social-links a:hover {
+    color: #000;
+  }
+
+  .footer-bottom {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e0e0e0;
+    font-family: "DM Sans", sans-serif;
+    color: #666;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 768px) {
+    .footer-content {
+      flex-direction: column;
+    }
+    
+    .footer-section {
+      margin-bottom: 1.5rem;
+    }
+  }
 </style>

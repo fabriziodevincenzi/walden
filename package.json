@@ -1,5 +1,5 @@
 {
-  "name": "your-project-name",
+  "name": "vitaneiboschi",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -10,8 +10,6 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^2.0.0",
-    "html-entities": "^2.5.2",
-    "marked": "^13.0.1"
+    "astro": "^4.11.3"
   }
 }

@@ -1,116 +1,146 @@
 ---
-// src/components/MediaPreview.astro
-import { formatDate } from '../utils/dateFormatter';
+const { media } = Astro.props;
 
-interface Props {
-  item: {
-    slug: string;
-    data: {
-      title: string;
-      pubDate: Date;
-      description: string;
-      author: string;
-      image?: {
-        url: string;
-        alt: string;
-      };
-      mediaType: 'Video' | 'Podcast';
-    };
-  };
+// Verifica se media e media.data esistono
+if (!media || !media.data) {
+  console.error("Dati del media mancanti o non validi");
+  return;
 }
 
-const { item } = Astro.props;
-const { title, pubDate, description, author, image, mediaType } = item.data;
+const { title, author, authorRole, authorImage, type, url, thumbnailUrl, pubDate } = media.data;
+
+const formatDate = (date) => {
+  return new Date(date).toLocaleDateString('it-IT', { year: 'numeric', month: 'long', day: 'numeric' });
+};
 ---
 
-<article class="media-item">
-  <p class="media-type">{item.data.mediaType}</p>
-  <h2 class="media-title">
-    <a href={`/media/${item.slug}`} class="media-link">{item.data.title}</a>
-  </h2>
-  <p class="media-description">{item.data.description}</p>
-  <div class="author-info">
-    <p class="author-name">{item.data.author}</p>
-    <p class="author-title">{item.data.authorTitle}</p>
+<article class="media-preview">
+  <div class="media-content">
+    <div class={`media-type-badge ${type}`}>{type}</div>
+    {type === 'video' && thumbnailUrl && (
+      <img class="media-thumbnail" src={thumbnailUrl} alt={title} />
+    )}
+    <h3 class="media-title">{title}</h3>
+    {type === 'podcast' && (
+      <audio class="podcast-player" controls>
+        <source src={url} type="audio/mpeg">
+        Il tuo browser non supporta l'elemento audio.
+      </audio>
+    )}
+  </div>
+  <div class="media-author">
+    <img class="author-image" src={authorImage} alt={author} />
+    <div class="author-info">
+      <span class="author-name">{author}</span>
+      <span class="author-date">{formatDate(pubDate)}</span>
+    </div>
   </div>
 </article>
 
 <style>
-  .article {
+  .media-preview {
+    margin-top: 1rem;
     margin-bottom: 2rem;
+    font-family: 'DM Sans', sans-serif;
   }
 
-  .media-type {
-    display: flex;
-    align-items: center;
-    font-size: 0.875rem;
-    color: #666;
+  .media-content {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+
+  .media-type-badge {
+    display: inline-block;
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
     margin-bottom: 0.5rem;
-    margin-block-start: 1em;
   }
 
-  .media-type svg {
-    width: 24px;
-    height: 24px;
-    margin-right: 0.5rem;
+  .media-type-badge.video {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 1;
+  }
+
+  .media-thumbnail {
+    width: 100%;
+    height: auto;
+    display: block;
   }
 
   .media-title {
-    font-family: "Fraunces", serif;
-    font-weight: 700;
-    line-height: 1.25;
-    margin-bottom: 0.5rem;
-  }
-
-  .article-title--medium {
+    font-family: 'Fraunces', serif;
     font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+    line-height: 1.2;
   }
 
-  .media-link {
-    color: #000000;
-    text-decoration: none;
+  .podcast-player {
+    width: 100%;
+    margin-top: 0.5rem;
   }
 
-  .article-excerpt {
-    font-size: 1rem;
-    line-height: 1.5;
-    margin-bottom: 1rem;
+/* Personalizzazione del player audio */
+  .podcast-player::-webkit-media-controls-panel {
+    background-color: #f8f3eb; /* Colore di sfondo del player */
+  }
+
+  .podcast-player::-webkit-media-controls-play-button {
+    background-color: #f0f0f0; /* Colore del pulsante play */
+    border-radius: 50%;
+  }
+
+  .podcast-player::-webkit-media-controls-current-time-display,
+  .podcast-player::-webkit-media-controls-time-remaining-display {
+    color: #333; /* Colore del testo del tempo */
+  }
+
+  .podcast-player::-webkit-media-controls-volume-slider {
+    background-color: #f0f0f0; /* Colore della barra del volume */
+    border-radius: 25px;
+  }
+
+  .podcast-player::-webkit-media-controls-mute-button {
+    background-color: #f0f0f0; /* Colore del pulsante mute */
+    border-radius: 50%;
+  }
+
+  /* Per Firefox */
+  .podcast-player {
+    background-color: #f8f3eb;
+    color: #333;
+  }
+
+  .media-author {
+    display: flex;
+    align-items: center;
+  }
+
+  .author-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 1rem;
   }
 
   .author-info {
-    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
   }
-
-  /** .article-author-info dt {
-    font-weight: 600;
-  }
-  */
 
   .author-name {
     font-weight: 600;
-    margin: 0;
   }
 
-  .author-title {
+  .author-date {
     font-size: 0.9rem;
     color: #666;
-    margin: 0.2rem 0 0 0;
-  }
-
-  .article-author-info dd {
-    font-size: 0.875rem;
-    color: #666;
-  }
-
-  .media-item {
-    padding-bottom: 2rem;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid #e0d8c9;
-  }
-
-  .media-item:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
   }
 </style>

@@ -8,8 +8,8 @@ image:
   url: "/images/monte-bianco.jpg"
   alt: "Vista della vetta del Monte Bianco"
 category: "Escursioni"
-duration: "2-3 giorni"
-difficulty: "Difficile"
+durata: "2-3 giorni"
+difficolta: "Difficile"
 distance: "40 km (andata e ritorno)"
 ---
 

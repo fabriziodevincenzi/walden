@@ -1,91 +1,150 @@
 ---
-// src/pages/index.astro
-import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import MainLayout from '../layouts/MainLayout.astro';
+import EditorialPreview from '../components/EditorialPreview.astro';
 import ArticlePreview from '../components/ArticlePreview.astro';
+import ArticlePreviewCompact from '../components/ArticlePreviewCompact.astro';
 import ReportagePreview from '../components/ReportagePreview.astro';
 import ExcursionPreview from '../components/ExcursionPreview.astro';
 import MediaPreview from '../components/MediaPreview.astro';
-import { getCollection } from 'astro:content';
+import LegendPreview from '../components/LegendPreview.astro';
 
-// Recupera i contenuti dalle collezioni
-const editoriali = await getCollection('editoriali');
-const reportages = await getCollection('reportage');
-const excursions = await getCollection('escursioni');
-const mediaItems = await getCollection('media');
+const allArticoli = await getCollection('articoli');
+const allEditoriali = await getCollection('editoriali');
+const allReportage = await getCollection('reportage');
+const allEscursioni = await getCollection('escursioni');
+const allMedia = await getCollection('media');
+const allLeggende = await getCollection('leggende');
 
-// Ordina i contenuti per data di pubblicazione (dal più recente)
-const sortByDate = (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
-editoriali.sort(sortByDate);
-reportages.sort(sortByDate);
-excursions.sort(sortByDate);
-mediaItems.sort(sortByDate);
+const getLatest = (collection, count = 1) => {
+  return collection
+    .filter(item => item.data.pubDate instanceof Date)
+    .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+    .slice(0, count);
+};
+
+const getFeaturedArticle = (articles) => {
+  return articles
+    .filter(article => article.data.tags && article.data.tags.includes('featured'))
+    .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())[0];
+};
+
+const featuredArticle = getFeaturedArticle(allArticoli);
+const latestArticles = getLatest(allArticoli.filter(article => article !== featuredArticle), 2);
+const latestEditorial = getLatest(allEditoriali, 1)[0];
+const latestReportage = getLatest(allReportage, 1)[0];
+const latestExcursions = getLatest(allEscursioni, 2);
+const latestMedia = getLatest(allMedia, 2);
+const latestLegend = getLatest(allLeggende, 1)[0];
+
+console.log("Latest Editorial:", latestEditorial);
+console.log("Featured Article:", featuredArticle);
+console.log("Latest Reportage:", latestReportage);
+console.log("Latest Articles:", latestArticles);
+console.log("Latest Excursions:", latestExcursions);
+console.log("Latest Media:", latestMedia);
+console.log("Latest Legend:", latestLegend);
 ---
-
-<Layout title="Vita nei boschi">
-  <div class="home-layout">
-    <div class="column editorial-column">
-      {editoriali[0] && <ArticlePreview article={editoriali[0]} />}
+<MainLayout title="Home">
+  <div class="page-title">
+    <h1>Ultimi Aggiornamenti</h1>
+  </div>
+  <div class="magazine-layout">
+    <div class="magazine-column">
+      {latestEditorial && <EditorialPreview editorial={latestEditorial} />}
+      {featuredArticle && <ArticlePreview article={featuredArticle} />}
     </div>
-
-    <div class="column reportage-column">
-      {reportages[0] && <ReportagePreview reportage={reportages[0]} />}
+    <div class="magazine-column">
+      {latestReportage && <ReportagePreview reportage={latestReportage} />}
+      <hr class="section-divider" />
+      <div class="compact-articles">
+        <h2 class="section-title">
+          <span class="pulse-dot"></span>
+          Ultime Notizie
+        </h2>
+        {latestArticles.map((article, index) => (
+          <ArticlePreviewCompact 
+            article={article}
+            isLast={index === latestArticles.length - 1}
+          />
+        ))}
+      </div>
     </div>
-
-    <div class="column excursions-column">
-      {excursions.slice(0, 2).map(excursion => (
+    <div class="magazine-column">
+      {latestExcursions.map((excursion) => (
         <ExcursionPreview excursion={excursion} />
       ))}
     </div>
-
-    <div class="column media-column">
-      {mediaItems.slice(0, 3).map(item => (
-        <MediaPreview item={item} />
+    <div class="magazine-column">
+      {latestMedia.slice(0, 2).map((media) => (
+        <MediaPreview media={media} />
       ))}
     </div>
   </div>
-</Layout>
+</MainLayout>
 
 <style>
-  .home-layout {
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr 1fr;
-    gap: 2rem;
+  .page-title,
+  .section-title {
+    font-family: "DM Sans", sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 0rem;
   }
 
-  .column {
+  .section-title {
+    display: flex;
+    align-items: center;
+    margin-top: 2rem;
+  }
+
+  .pulse-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #ff4136;
+    border-radius: 50%;
+    margin-right: 10px;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(255, 65, 54, 0.7);
+    }
+    
+    70% {
+      transform: scale(1);
+      box-shadow: 0 0 0 10px rgba(255, 65, 54, 0);
+    }
+    
+    100% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(255, 65, 54, 0);
+    }
+  }
+
+  .section-divider {
+    border: 0;
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 0;
+  }
+
+  .compact-articles {
+    margin-top: 0rem;
+  }
+
+  .magazine-layout {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0rem;
+  }
+
+  .magazine-column {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
   }
 
-  .column:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-  }
-
-  @media (min-width: 768px) {
-    .home-layout {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .home-layout {
-      grid-template-columns: 1fr 2fr 1fr 1fr;
-    }
-
-  .column:not(:last-child) {
-    border-right: 1px solid #e0d8c9;
-    padding-right: 2rem;
-  }
-
-  .column:not(:first-child) {
-    padding-left: 0rem;
-  }
-
-  /* Rimuovi i margini interni dai componenti figli */
-  :global(.column > *) {
-    margin-left: 0;
-    margin-right: 0;
-  }
 </style>

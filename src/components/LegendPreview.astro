@@ -1,0 +1,47 @@
+---
+const { legend } = Astro.props;
+
+if (!legend || !legend.data) {
+  console.error("Dati della leggenda mancanti o non validi");
+  return null;
+}
+
+const { title, content } = legend.data;
+
+// Verifica se content è definito e una stringa
+const isValidContent = typeof content === 'string' && content.length > 0;
+
+// Limita il contenuto iniziale a un numero fisso di caratteri, se valido
+const initialContent = isValidContent 
+  ? (content.slice(0, 300) + (content.length > 300 ? '...' : ''))
+  : 'Contenuto non disponibile';
+
+console.log("Legend data:", legend.data); // Aggiungi questo per il debug
+---
+
+<article class="legend-preview">
+  <h3 class="legend-title">{title || 'Titolo non disponibile'}</h3>
+  <div class="legend-content" data-full-content={isValidContent ? content : ''}>
+    {initialContent}
+  </div>
+</article>
+
+<style>
+  .legend-preview {
+    font-family: 'Fraunces', serif;
+    margin-top: 2rem;
+  }
+
+  .legend-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-style: italic;
+  }
+
+  .legend-content {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    font-style: italic;
+  }
+</style>

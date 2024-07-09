@@ -8,8 +8,8 @@ image:
   url: "/images/sentiero-degli-dei.jpg"
   alt: "Vista panoramica dalla Costiera Amalfitana"
 category: "Escursioni"
-duration: "5 ore"
-difficulty: "Media"
+durata: "5 ore"
+difficolta: "Media"
 distance: "8 km"
 ---
 

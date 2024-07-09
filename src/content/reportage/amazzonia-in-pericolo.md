@@ -1,13 +1,17 @@
 ---
 title: "Amazzonia in pericolo: un viaggio nel cuore della foresta"
-pubDate: 2023-06-15
+pubDate: 2024-07-03
 description: "Un'esplorazione approfondita delle sfide che sta affrontando la più grande foresta pluviale del mondo"
 author: "Laura Verdi"
-authorTitle: "Guida ambientale"
 image: 
   url: "/images/amazzonia.jpg"
   alt: "Vista aerea della foresta amazzonica"
-category: "Reportage"
+authorImage:
+  url: "/images/authors/laura-verdi.jpg"
+  alt: "Foto di Nome Autore"
+---
+
+Contenuto del reportage...
 ---
 
 Mentre ci addentriamo nella fitta vegetazione, il canto di uccelli esotici e il frusciare di creature nascoste ci accompagnano. La guida indigena, João, ci spiega come la sua tribù viva in armonia con la foresta da generazioni. "Per noi, ogni albero, ogni pianta, ogni animale è sacro", dice. "Ma ora vediamo la nostra casa scomparire giorno dopo giorno".

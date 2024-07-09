@@ -1,96 +1,19 @@
 ---
-// src/components/Header.astro
 ---
-
-<header class="header">
-	<div class="header-content">
-	  <a href="/" class="logo">Vita nei boschi</a>
-	  <nav class="desktop-nav">
-		<a href="/editoriali">Editoriali</a>
-		<a href="/reportage">Reportage</a>
-		<a href="/escursioni">Escursioni</a>
-		<a href="/media">Media</a>
-	  </nav>
-	  <button class="mobile-menu-button" id="mobileMenuButton">Menu</button>
+<header class="header responsive-wrapper">
+	<div class="header-left">
+		<h1>Vita nei boschi</h1>	  
 	</div>
-	<nav class="mobile-nav" id="mobileNav">
-	  <a href="/editoriali">Editoriali</a>
-	  <a href="/reportage">Reportage</a>
-	  <a href="/escursioni">Escursioni</a>
-	  <a href="/media">Media</a>
+	<div class="header-middle">
+		<a href="#" class="header-link">Chiamaci (123) 456 789</a>
+		<span>/</span>
+		<a href="#" class="header-link">info@vitaneiboschi.it</a>
+	</div>
+	<div class="header-right">
+	<nav class="header-nav">
+		<a href="#" class="header-link">Login</a>
+		<a href="#" class="header-link header-link--button">Abbonati per € 1 al mese</a>
 	</nav>
-  </header>
-  
-  <script>
-	const mobileMenuButton = document.getElementById('mobileMenuButton');
-	const mobileNav = document.getElementById('mobileNav');
-  
-	mobileMenuButton.addEventListener('click', () => {
-	  mobileNav.classList.toggle('active');
-	});
-  </script>
-  
-  <style>
-	.header {
-	  padding: 1rem;
-	  background-color: #f8f3eb;
-	  border-bottom: 1px solid #e0d8c9;
-	}
-  
-	.header-content {
-	  display: flex;
-	  justify-content: space-between;
-	  align-items: center;
-	}
-  
-	.logo {
-	  font-family: "Fraunces", serif;
-	  font-size: 1.5rem;
-	  font-weight: 700;
-	  color: #333;
-	  text-decoration: none;
-	}
-  
-	.desktop-nav {
-	  display: none;
-	}
-  
-	.mobile-menu-button {
-	  background: none;
-	  border: none;
-	  font-size: 1rem;
-	  cursor: pointer;
-	}
-  
-	.mobile-nav {
-	  display: none;
-	  flex-direction: column;
-	  padding: 1rem 0;
-	}
-  
-	.mobile-nav.active {
-	  display: flex;
-	}
-  
-	.mobile-nav a {
-	  padding: 0.5rem 0;
-	  color: #333;
-	  text-decoration: none;
-	}
-  
-	@media (min-width: 768px) {
-	  .mobile-menu-button, .mobile-nav {
-		display: none;
-	  }
-  
-	  .desktop-nav {
-		display: flex;
-		gap: 1rem;
-	  }
-  
-	  .desktop-nav a {
-		color: #333;
-		text-decoration: none;
-	  }
-	}
-  </style>
+		<button class="header-menu-button">Menu</button>
+	</div>
+</header>
