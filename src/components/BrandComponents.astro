@@ -1,34 +1,11 @@
 ---
-// components/Logo.astro
----
-<a href="/" class="logo">
-  VITA<span class="logo-separator">/</span>BOSCHI
-</a>
-
-<style>
-.logo {
-  font-size: var(--font-size-2xl);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  text-decoration: none;
-  color: var(--color-text-primary);
-}
-
-.logo-separator {
-  color: var(--color-primary);
-  margin: 0 0.2em;
-  font-weight: 900;
-}
-</style>
-
----
-// components/CategoryTag.astro
 interface Props {
   category: string;
 }
 
 const { category } = Astro.props;
 ---
+
 <span class="category-tag">{category}</span>
 
 <style>
