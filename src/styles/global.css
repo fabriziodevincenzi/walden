@@ -1,78 +1,104 @@
-/* src/styles/global.css */
-*,
-*:after,
-*:before {
-  box-sizing: border-box;
+/* Reset e variabili */
+:root {
+  /* Colori nordici */
+  --color-dark: #2C3338;
+  --color-light: #FFFFFF;
+  --color-accent: #FF5F38;
+  --color-gray-100: #F7F9FA;
+  --color-gray-200: #E3E8EB;
+  --color-gray-300: #CFD6DB;
+  --color-gray-400: #9BA6AE;
+  
+  /* Spacing */
+  --space-xs: 0.5rem;
+  --space-s: 1rem;
+  --space-m: 1.5rem;
+  --space-l: 2rem;
+  --space-xl: 3rem;
+  
+  /* Typography */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --font-size-small: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-large: 1.125rem;
+  --font-size-xl: 1.5rem;
+  --font-size-xxl: 2rem;
+  --font-size-huge: 3rem;
 }
 
-:root {
-  --color-background: #f8f3eb;
-  --color-text: #484847;
-  --color-primary: #fabea1;
-  --color-secondary: #c2dddf;
-  --color-tertiary: #F8E177;
+/* Base styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  font-family: "DM Sans", sans-serif;
-  font-size: 1rem;
-  line-height: 1.5;
-  background-color: var(--color-background);
-  color: var(--color-text);
-  padding-bottom: 5rem;
-  margin: 0;
+  font-family: var(--font-primary);
+  line-height: var(--line-height-normal);
+  color: var(--color-dark);
+  background-color: var(--color-light);
 }
 
 img {
-  display: block;
   max-width: 100%;
   height: auto;
+  display: block;
 }
 
-.responsive-wrapper {
-  width: 95%;
-  max-width: 1900px;
-  margin-left: auto;
-  margin-right: auto;
+/* Grid e Layout */
+.site-container {
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 0 var(--space-m);
 }
 
 .magazine-layout {
-  margin-top: 3rem;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
+  gap: var(--space-xl);
+  padding: var(--space-xl) 0;
 }
 
 @media (max-width: 1200px) {
+  .magazine-layout {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
   .magazine-layout {
     grid-template-columns: 1fr;
   }
 }
 
-/* Column styles */
-.column {
-  padding: 0 1.5rem;
-  border-right: 1px solid #CCC;
-}
-
-.column:last-child {
-  border-right: none;
-}
-
-/* Header styles */
-.header {
-  padding: 3rem 1.5rem 4rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  font-family: "Fraunces", serif;
+/* Typography */
+h1, h2, h3, h4 {
   font-weight: 700;
-  font-size: 1.5rem;
-  color: inherit;
-  text-decoration: none;
+  line-height: var(--line-height-tight);
 }
 
-/* ... il resto degli stili del tuo CSS originale ... */
+.section-title {
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-l);
+  position: relative;
+}
+
+.section-title::after {
+  content: "";
+  display: block;
+  width: 2rem;
+  height: 2px;
+  background: var(--color-accent);
+  margin-top: var(--space-xs);
+}

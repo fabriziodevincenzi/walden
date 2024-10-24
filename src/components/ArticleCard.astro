@@ -22,119 +22,158 @@ const {
   category,
   size = 'medium' 
 } = Astro.props;
+
+const formatDate = (date: Date) => {
+  return new Intl.DateTimeFormat('it-IT', { 
+    day: 'numeric', 
+    month: 'long', 
+    year: 'numeric' 
+  }).format(date);
+};
 ---
 
 <article class={`article article--${size}`}>
-  {image && (
-    <figure class="article-img">
-      <img src={image} alt={title} />
-    </figure>
-  )}
-  
   {category && (
     <div class="article-category">
       <span>{category}</span>
     </div>
   )}
-
-  <h2 class={`article-title article-title--${size}`}>
-    <a href="#" class="article-link">{title}</a>
-  </h2>
   
-  {excerpt && (
-    <div class="article-excerpt">
-      <p>{excerpt}</p>
-    </div>
+  {image && (
+    <figure class="article-img">
+      <img src={image} alt={title} />
+    </figure>
   )}
 
-  {author && (
-    <div class="article-author">
-      {author.image && (
-        <div class="article-author-img">
-          <img src={author.image} alt={author.name} />
+  <div class="article-content">
+    <h2 class={`article-title article-title--${size}`}>
+      <a href="#" class="article-link">{title}</a>
+    </h2>
+    
+    {excerpt && (
+      <div class="article-excerpt">
+        <p>{excerpt}</p>
+      </div>
+    )}
+
+    <div class="article-meta">
+      {author && (
+        <div class="article-author">
+          {author.image && (
+            <div class="article-author-img">
+              <img src={author.image} alt={author.name} />
+            </div>
+          )}
+          <div class="article-author-info">
+            <span class="author-name">{author.name}</span>
+            <span class="author-role">{author.role}</span>
+          </div>
         </div>
       )}
-      <div class="article-author-info">
-        <dl>
-          <dt>{author.name}</dt>
-          <dd>{author.role}</dd>
-        </dl>
-      </div>
+      
+      {date && (
+        <time class="article-date">{formatDate(date)}</time>
+      )}
     </div>
-  )}
+  </div>
 </article>
 
 <style>
 .article {
-  & + .article {
-    padding-top: 2rem;
-    margin-top: 2rem;
-    border-top: 1px solid #ccc;
-  }
-}
-
-.article-img {
-  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
 }
 
 .article-category {
-  font-weight: 500;
-  margin-bottom: 0.5rem;
+  font-size: var(--font-size-small);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.article-img {
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  &:hover img {
+    transform: scale(1.03);
+  }
 }
 
 .article-title {
-  font-family: "Fraunces", serif;
-  font-weight: 900;
-  line-height: 1.25;
-  margin-bottom: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: var(--line-height-tight);
 }
 
-.article-title--large {
-  font-size: 2rem;
-}
-
-.article-title--medium {
-  font-size: 1.5rem;
-}
-
-.article-title--small {
-  font-size: 1.25rem;
-}
+.article-title--large { font-size: var(--font-size-huge); }
+.article-title--medium { font-size: var(--font-size-xl); }
+.article-title--small { font-size: var(--font-size-large); }
 
 .article-link {
   color: inherit;
   text-decoration: none;
+  
+  &:hover {
+    color: var(--color-accent);
+  }
 }
 
 .article-excerpt {
-  font-size: 1.125rem;
-  line-height: 1.4;
-  margin-bottom: 1.5rem;
+  color: var(--color-gray-400);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+}
+
+.article-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: var(--space-m);
+  border-top: 1px solid var(--color-gray-200);
 }
 
 .article-author {
   display: flex;
   align-items: center;
+  gap: var(--space-xs);
 }
 
 .article-author-img {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 12px;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
   overflow: hidden;
-  margin-right: 0.5rem;
 }
 
 .article-author-info {
-  line-height: 1.375;
-  
-  dt {
-    font-weight: 600;
-  }
-  
-  dd {
-    font-size: 0.875em;
-    color: #666;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.author-name {
+  font-weight: 600;
+  font-size: var(--font-size-small);
+}
+
+.author-role {
+  font-size: var(--font-size-small);
+  color: var(--color-gray-400);
+}
+
+.article-date {
+  font-size: var(--font-size-small);
+  color: var(--color-gray-400);
 }
 </style>
