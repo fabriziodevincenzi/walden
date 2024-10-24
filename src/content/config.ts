@@ -4,12 +4,17 @@ const articles = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    date: z.date(),
-    author: z.string(),
-    category: z.enum(['editoriale', 'reportage', 'escursioni', 'multimedia']),
-    excerpt: z.string(),
-    image: z.string().optional(),
+    description: z.string(),
+    pubDate: z.date(),
+    author: z.object({
+      name: z.string(),
+      role: z.string(),
+      image: z.string().optional(),
+    }),
+    category: z.enum(['editoriale', 'reportage', 'escursione', 'multimedia']),
     featured: z.boolean().default(false),
+    cover: z.string().optional(),
+    tags: z.array(z.string()).default([]),
   }),
 });
 
