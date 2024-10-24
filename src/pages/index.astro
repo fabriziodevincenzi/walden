@@ -1,49 +1,53 @@
 ---
-// src/pages/index.astro
 import Layout from '../layouts/layout.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+
+// Questi dati andranno poi spostati in file .md o in un CMS
+const editorial = {
+  title: "Il ritorno del verde: la crescita dei boschi in Italia",
+  excerpt: "Nell'ultimo secolo, l'Italia ha vissuto una significativa crescita dei suoi boschi, con profonde implicazioni per l'ambiente e l'economia.",
+  author: {
+    name: "Mario Rossi",
+    role: "Editorialista",
+    image: "/authors/mario-rossi.jpg"
+  },
+  date: new Date("2024-07-03")
+};
+
+const featuredNews = {
+  title: "Successo per il progetto di reintroduzione del gallo cedrone sulle Alpi Orobie",
+  category: "In evidenza",
+  author: {
+    name: "Staff Vita nei Boschi",
+    role: "Redazione"
+  },
+  date: new Date("2024-04-04")
+};
 ---
 
 <Layout title="Home">
   <div class="column editorial">
-    <!-- Prima colonna: editoriale + notizia in evidenza -->
     <section class="section-editorial">
-      <h2 class="section-title">Editoriale</h2>
-      <!-- Qui inseriremo il componente dell'editoriale -->
+      <ArticleCard 
+        size="large"
+        {...editorial}
+      />
     </section>
     
     <section class="section-featured">
-      <h2 class="section-title">In evidenza</h2>
-      <!-- Qui inseriremo il componente della notizia in evidenza -->
+      <ArticleCard 
+        size="medium"
+        {...featuredNews}
+      />
     </section>
   </div>
 
+  <!-- Le altre colonne per ora le lasciamo vuote -->
   <div class="column reports">
-    <!-- Seconda colonna: reportage + Ultime Notizie -->
-    <section class="section-reports">
-      <h2 class="section-title">Reportage</h2>
-      <!-- Qui inseriremo i componenti dei reportage -->
-    </section>
-    
-    <section class="section-news">
-      <h2 class="section-title">Ultime Notizie</h2>
-      <!-- Qui inseriremo i componenti delle ultime notizie -->
-    </section>
   </div>
-
   <div class="column excursions">
-    <!-- Terza colonna: escursioni -->
-    <section class="section-excursions">
-      <h2 class="section-title">Escursioni</h2>
-      <!-- Qui inseriremo i componenti delle escursioni -->
-    </section>
   </div>
-
   <div class="column multimedia">
-    <!-- Quarta colonna: contenuti multimediali -->
-    <section class="section-multimedia">
-      <h2 class="section-title">Multimedia</h2>
-      <!-- Qui inseriremo i componenti video e podcast -->
-    </section>
   </div>
 </Layout>
 
