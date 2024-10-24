@@ -1,14 +1,66 @@
 ---
+// src/pages/index.astro
+import Layout from '../layouts/Layout.astro';
 ---
 
-<html lang="it">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Vita nei Boschi</title>
-  </head>
-  <body>
-    <h1>Vita nei Boschi</h1>
-    <p>Test di deployment completato con successo!</p>
-  </body>
-</html>
+<Layout title="Home">
+  <div class="column editorial">
+    <!-- Prima colonna: editoriale + notizia in evidenza -->
+    <section class="section-editorial">
+      <h2 class="section-title">Editoriale</h2>
+      <!-- Qui inseriremo il componente dell'editoriale -->
+    </section>
+    
+    <section class="section-featured">
+      <h2 class="section-title">In evidenza</h2>
+      <!-- Qui inseriremo il componente della notizia in evidenza -->
+    </section>
+  </div>
+
+  <div class="column reports">
+    <!-- Seconda colonna: reportage + Ultime Notizie -->
+    <section class="section-reports">
+      <h2 class="section-title">Reportage</h2>
+      <!-- Qui inseriremo i componenti dei reportage -->
+    </section>
+    
+    <section class="section-news">
+      <h2 class="section-title">Ultime Notizie</h2>
+      <!-- Qui inseriremo i componenti delle ultime notizie -->
+    </section>
+  </div>
+
+  <div class="column excursions">
+    <!-- Terza colonna: escursioni -->
+    <section class="section-excursions">
+      <h2 class="section-title">Escursioni</h2>
+      <!-- Qui inseriremo i componenti delle escursioni -->
+    </section>
+  </div>
+
+  <div class="column multimedia">
+    <!-- Quarta colonna: contenuti multimediali -->
+    <section class="section-multimedia">
+      <h2 class="section-title">Multimedia</h2>
+      <!-- Qui inseriremo i componenti video e podcast -->
+    </section>
+  </div>
+</Layout>
+
+<style>
+.section-title {
+  font-family: "Fraunces", serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-editorial,
+.section-featured,
+.section-reports,
+.section-news,
+.section-excursions,
+.section-multimedia {
+  margin-bottom: 3rem;
+}
+</style>
