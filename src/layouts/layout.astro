@@ -1,0 +1,48 @@
+---
+// Layout.astro
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Fraunces:ital,wght@0,500;0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <title>{title} - Vita nei Boschi</title>
+  </head>
+  <body>
+    <div class="site-container">
+      <header class="header responsive-wrapper">
+        <div class="header-left">
+          <a href="/" class="logo">Vita nei Boschi</a>
+        </div>
+        <div class="header-right">
+          <nav class="header-nav">
+            <a href="/articoli" class="header-link">Articoli</a>
+            <a href="/escursioni" class="header-link">Escursioni</a>
+            <a href="/multimedia" class="header-link">Multimedia</a>
+          </nav>
+          <button class="header-menu-button">Menu</button>
+        </div>
+      </header>
+
+      <main class="responsive-wrapper">
+        <div class="page-title">
+          <h1>{title}</h1>
+        </div>
+        
+        <div class="magazine-layout">
+          <slot />
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
