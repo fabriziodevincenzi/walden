@@ -1,0 +1,85 @@
+/* styles/responsive.css */
+/* Base responsive container */
+.container {
+  width: 100%;
+  padding: 0 1rem;
+  margin: 0 auto;
+}
+
+/* Breakpoint sizes */
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+    padding: 0 2rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1440px;
+  }
+}
+
+/* Grid Layout */
+.magazine-layout {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+}
+
+/* Mobile: Single column */
+@media (max-width: 767px) {
+  .magazine-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .article-title--large {
+    font-size: 1.75rem;
+  }
+  
+  .article-title--medium {
+    font-size: 1.5rem;
+  }
+}
+
+/* Tablet: Two columns */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .magazine-layout {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .column-featured {
+    grid-column: span 2;
+  }
+}
+
+/* Desktop: Four columns */
+@media (min-width: 1024px) {
+  .magazine-layout {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+}
+
+/* Typography Responsive */
+@media (max-width: 640px) {
+  :root {
+    --font-size-base: 0.9375rem;
+    --font-size-lg: 1rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+  }
+}
