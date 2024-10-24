@@ -40,11 +40,19 @@ const formattedDate = new Intl.DateTimeFormat('it-IT', {
 }).format(pubDate);
 ---
 
-<article class={`article article--${size}`}>
+<article class={`article article--${size} ${featured ? 'article--featured' : ''}`}>
   {cover && (
     <a href={url} class="article-image-link">
       <figure class="article-img">
         <img src={cover} alt={title} />
+        {isMultimedia && (
+          <div class="multimedia-overlay">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="23 7 16 12 23 17 23 7"/>
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+            </svg>
+          </div>
+        )}
       </figure>
     </a>
   )}
@@ -52,7 +60,7 @@ const formattedDate = new Intl.DateTimeFormat('it-IT', {
   <div class="article-content">
     <div class="article-meta">
       <span class="article-category">{category}</span>
-      <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+      <time datetime={pubDate.toISOString()} class="article-date">{formattedDate}</time>
     </div>
 
     <h2 class={`article-title article-title--${size}`}>
@@ -61,7 +69,15 @@ const formattedDate = new Intl.DateTimeFormat('it-IT', {
 
     <p class="article-description">{description}</p>
 
-    {author && (
+    {tags.length > 0 && (
+      <div class="article-tags">
+        {tags.map(tag => (
+          <span class="tag">#{tag}</span>
+        ))}
+      </div>
+    )}
+
+    <div class="article-footer">
       <div class="article-author">
         {author.image && (
           <div class="article-author-img">
@@ -73,16 +89,7 @@ const formattedDate = new Intl.DateTimeFormat('it-IT', {
           <span class="author-role">{author.role}</span>
         </div>
       </div>
-    )}
-
-    {isMultimedia && (
-      <div class="article-multimedia-badge">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polygon points="23 7 16 12 23 17 23 7"/>
-          <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-        </svg>
-      </div>
-    )}
+    </div>
   </div>
 </article>
 
@@ -90,38 +97,75 @@ const formattedDate = new Intl.DateTimeFormat('it-IT', {
 .article {
   display: flex;
   flex-direction: column;
-  gap: var(--space-m);
+  background-color: var(--color-background);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.article--featured {
+  border-bottom: 2px solid var(--color-primary);
 }
 
 .article-image-link {
   display: block;
   overflow: hidden;
-  border-radius: 8px;
+}
+
+.article-img {
+  position: relative;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+
+.article-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.article-image-link:hover img {
+  transform: scale(1.05);
+}
+
+.multimedia-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--color-primary);
+  color: white;
+  padding: 1rem;
+  border-radius: 50%;
+  opacity: 0.9;
+}
+
+.article-content {
+  padding: var(--space-m);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+
+.article-meta {
+  display: flex;
+  gap: var(--space-s);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
 }
 
 .article-category {
   color: var(--color-primary);
   font-weight: 600;
   text-transform: uppercase;
-}
-
-.article-img {
-  aspect-ratio: 16/9;
-  overflow: hidden;
-  
-  img {
-    width: 100%;
-    height: 100%;
-    transition: transform 0.3s ease;
-  }
-  
-  &:hover img {
-    transform: scale(1.05);
-  }
+  letter-spacing: 0.05em;
 }
 
 .article-title {
-  margin: var(--space-xs) 0;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .article-title--large {
@@ -133,63 +177,84 @@ const formattedDate = new Intl.DateTimeFormat('it-IT', {
 }
 
 .article-link {
-  color: inherit;
+  color: var(--color-text);
   text-decoration: none;
-  
-  &:hover {
-    color: var(--color-accent);
-  }
+  transition: color 0.2s ease;
 }
 
-.article-excerpt {
-  color: var(--color-gray-400);
+.article-link:hover {
+  color: var(--color-primary);
+}
+
+.article-description {
+  color: var(--color-text-secondary);
   font-size: var(--font-size-base);
-  line-height: var(--line-height-normal);
+  line-height: 1.6;
 }
 
-.article-meta {
+.article-tags {
   display: flex;
-  gap: var(--space-s);
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tag {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
+}
+
+.article-footer {
+  margin-top: auto;
+  padding-top: var(--space-m);
+  border-top: 1px solid var(--color-border);
 }
 
 .article-author {
   display: flex;
   align-items: center;
-  gap: var(--space-xs);
+  gap: var(--space-s);
 }
 
 .article-author-img {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   overflow: hidden;
+}
+
+.article-author-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .article-author-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
 }
 
 .author-name {
   font-weight: 600;
-  font-size: var(--font-size-small);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
 }
 
 .author-role {
-  font-size: var(--font-size-small);
-  color: var(--color-gray-400);
-}
-
-.article-date {
-  font-size: var(--font-size-small);
-  color: var(--color-gray-400);
-}
-
-.article-description {
   color: var(--color-text-secondary);
-  line-height: 1.6;
+  font-size: var(--font-size-sm);
+}
+
+@media (max-width: 768px) {
+  .article-title--large {
+    font-size: var(--font-size-xl);
+  }
+
+  .article-title--medium {
+    font-size: var(--font-size-lg);
+  }
+
+  .article-content {
+    padding: var(--space-s);
+  }
 }
 </style>

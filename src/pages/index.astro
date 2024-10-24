@@ -49,6 +49,7 @@ multimedia.sort(sortByDateAndFeatured);
           cover={post.data.cover}
           url={`/articoli/${post.slug}`}
           size={post.data.featured ? 'large' : 'medium'}
+          isMultimedia={post.data.category === 'multimedia'}
         />
       ))}
     </div>
@@ -58,21 +59,37 @@ multimedia.sort(sortByDateAndFeatured);
       <h2 class="section-title">Reportage</h2>
       {reportage.map(post => (
         <ArticleCard 
-          article={post.data}
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          author={post.data.author}
+          category={post.data.category}
+          featured={post.data.featured}
+          tags={post.data.tags}
+          cover={post.data.cover}
           url={`/articoli/${post.slug}`}
           size={post.data.featured ? 'large' : 'medium'}
+          isMultimedia={false}
         />
       ))}
     </div>
 
-    <!-- Excursions Column -->
+    <!-- Escursioni Column -->
     <div class="magazine-column">
       <h2 class="section-title">Escursioni</h2>
       {excursions.map(post => (
         <ArticleCard 
-          article={post.data}
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          author={post.data.author}
+          category={post.data.category}
+          featured={post.data.featured}
+          tags={post.data.tags}
+          cover={post.data.cover}
           url={`/articoli/${post.slug}`}
           size="medium"
+          isMultimedia={false}
         />
       ))}
     </div>
@@ -82,7 +99,14 @@ multimedia.sort(sortByDateAndFeatured);
       <h2 class="section-title">Multimedia</h2>
       {multimedia.map(post => (
         <ArticleCard 
-          article={post.data}
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          author={post.data.author}
+          category={post.data.category}
+          featured={post.data.featured}
+          tags={post.data.tags}
+          cover={post.data.cover}
           url={`/articoli/${post.slug}`}
           size="medium"
           isMultimedia={true}
@@ -91,40 +115,3 @@ multimedia.sort(sortByDateAndFeatured);
     </div>
   </div>
 </MainLayout>
-
-<style>
-.magazine-layout {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-xl);
-  padding: var(--space-xl) 0;
-}
-
-.section-title {
-  font-size: var(--font-size-xl);
-  font-weight: 800;
-  margin-bottom: var(--space-l);
-  position: relative;
-}
-
-.section-title::after {
-  content: "";
-  display: block;
-  width: 2rem;
-  height: 2px;
-  background: var(--color-primary);
-  margin-top: var(--space-xs);
-}
-
-@media (max-width: 1024px) {
-  .magazine-layout {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .magazine-layout {
-    grid-template-columns: 1fr;
-  }
-}
-</style>
