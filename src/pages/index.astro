@@ -1,70 +1,116 @@
 ---
-import Layout from '../layouts/layout.astro';
+import { getCollection } from 'astro:content';
+import MainLayout from '../layouts/MainLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 
-// Questi dati andranno poi spostati in file .md o in un CMS
-const editorial = {
-  title: "Il ritorno del verde: la crescita dei boschi in Italia",
-  excerpt: "Nell'ultimo secolo, l'Italia ha vissuto una significativa crescita dei suoi boschi, con profonde implicazioni per l'ambiente e l'economia.",
-  author: {
-    name: "Mario Rossi",
-    role: "Editorialista",
-    image: "/authors/mario-rossi.jpg"
-  },
-  date: new Date("2024-07-03")
+// Get all articles
+const allArticles = await getCollection('articles');
+
+// Filter by category
+const editorials = allArticles.filter(post => post.data.category === 'editoriale');
+const reportage = allArticles.filter(post => post.data.category === 'reportage');
+const excursions = allArticles.filter(post => post.data.category === 'escursione');
+const multimedia = allArticles.filter(post => post.data.category === 'multimedia');
+
+// Sort by date and featured
+const sortByDateAndFeatured = (a, b) => {
+  if (a.data.featured && !b.data.featured) return -1;
+  if (!a.data.featured && b.data.featured) return 1;
+  return b.data.pubDate.getTime() - a.data.pubDate.getTime();
 };
 
-const featuredNews = {
-  title: "Successo per il progetto di reintroduzione del gallo cedrone sulle Alpi Orobie",
-  category: "In evidenza",
-  author: {
-    name: "Staff Vita nei Boschi",
-    role: "Redazione"
-  },
-  date: new Date("2024-04-04")
-};
+editorials.sort(sortByDateAndFeatured);
+reportage.sort(sortByDateAndFeatured);
+excursions.sort(sortByDateAndFeatured);
+multimedia.sort(sortByDateAndFeatured);
 ---
 
-<Layout title="Home">
-  <div class="column editorial">
-    <section class="section-editorial">
-      <ArticleCard 
-        size="large"
-        {...editorial}
-      />
-    </section>
-    
-    <section class="section-featured">
-      <ArticleCard 
-        size="medium"
-        {...featuredNews}
-      />
-    </section>
-  </div>
+<MainLayout title="Home">
+  <div class="magazine-layout">
+    <!-- Editorial Column -->
+    <div class="magazine-column">
+      <h2 class="section-title">Editoriali</h2>
+      {editorials.map(post => (
+        <ArticleCard 
+          article={post.data}
+          url={`/articoli/${post.slug}`}
+          size={post.data.featured ? 'large' : 'medium'}
+        />
+      ))}
+    </div>
 
-  <!-- Le altre colonne per ora le lasciamo vuote -->
-  <div class="column reports">
+    <!-- Reportage Column -->
+    <div class="magazine-column">
+      <h2 class="section-title">Reportage</h2>
+      {reportage.map(post => (
+        <ArticleCard 
+          article={post.data}
+          url={`/articoli/${post.slug}`}
+          size={post.data.featured ? 'large' : 'medium'}
+        />
+      ))}
+    </div>
+
+    <!-- Excursions Column -->
+    <div class="magazine-column">
+      <h2 class="section-title">Escursioni</h2>
+      {excursions.map(post => (
+        <ArticleCard 
+          article={post.data}
+          url={`/articoli/${post.slug}`}
+          size="medium"
+        />
+      ))}
+    </div>
+
+    <!-- Multimedia Column -->
+    <div class="magazine-column">
+      <h2 class="section-title">Multimedia</h2>
+      {multimedia.map(post => (
+        <ArticleCard 
+          article={post.data}
+          url={`/articoli/${post.slug}`}
+          size="medium"
+          isMultimedia={true}
+        />
+      ))}
+    </div>
   </div>
-  <div class="column excursions">
-  </div>
-  <div class="column multimedia">
-  </div>
-</Layout>
+</MainLayout>
 
 <style>
-.section-title {
-  font-family: "Fraunces", serif;
-  font-weight: 700;
-  font-size: 1.25rem;
-  margin-bottom: 1.5rem;
+.magazine-layout {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-xl);
+  padding: var(--space-xl) 0;
 }
 
-.section-editorial,
-.section-featured,
-.section-reports,
-.section-news,
-.section-excursions,
-.section-multimedia {
-  margin-bottom: 3rem;
+.section-title {
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  margin-bottom: var(--space-l);
+  position: relative;
+}
+
+.section-title::after {
+  content: "";
+  display: block;
+  width: 2rem;
+  height: 2px;
+  background: var(--color-primary);
+  margin-top: var(--space-xs);
+}
+
+@media (max-width: 1024px) {
+  .magazine-layout {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .magazine-layout {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
