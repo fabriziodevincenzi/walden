@@ -1,80 +1,88 @@
 ---
+interface Author {
+  name: string;
+  role: string;
+  image?: string;
+}
+
 interface Props {
   title: string;
-  excerpt?: string;
-  author?: {
-    name: string;
-    role: string;
-    image?: string;
-  };
-  date?: Date;
-  image?: string;
-  category?: string;
-  size?: 'large' | 'medium' | 'small';
+  description: string;
+  pubDate: Date;
+  author: Author;
+  category: 'editoriale' | 'reportage' | 'escursione' | 'multimedia';
+  featured: boolean;
+  tags: string[];
+  cover?: string;
+  url: string;
+  size?: 'large' | 'medium';
+  isMultimedia?: boolean;
 }
 
 const { 
-  title, 
-  excerpt, 
-  author, 
-  date, 
-  image, 
+  title,
+  description,
+  pubDate,
+  author,
   category,
-  size = 'medium' 
+  featured,
+  tags,
+  cover,
+  url,
+  size = 'medium',
+  isMultimedia = false
 } = Astro.props;
 
-const formatDate = (date: Date) => {
-  return new Intl.DateTimeFormat('it-IT', { 
-    day: 'numeric', 
-    month: 'long', 
-    year: 'numeric' 
-  }).format(date);
-};
+const formattedDate = new Intl.DateTimeFormat('it-IT', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric'
+}).format(pubDate);
 ---
 
 <article class={`article article--${size}`}>
-  {category && (
-    <div class="article-category">
-      <span>{category}</span>
-    </div>
+  {cover && (
+    <a href={url} class="article-image-link">
+      <figure class="article-img">
+        <img src={cover} alt={title} />
+      </figure>
+    </a>
   )}
   
-  {image && (
-    <figure class="article-img">
-      <img src={image} alt={title} />
-    </figure>
-  )}
-
   <div class="article-content">
+    <div class="article-meta">
+      <span class="article-category">{category}</span>
+      <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+    </div>
+
     <h2 class={`article-title article-title--${size}`}>
-      <a href="#" class="article-link">{title}</a>
+      <a href={url} class="article-link">{title}</a>
     </h2>
-    
-    {excerpt && (
-      <div class="article-excerpt">
-        <p>{excerpt}</p>
+
+    <p class="article-description">{description}</p>
+
+    {author && (
+      <div class="article-author">
+        {author.image && (
+          <div class="article-author-img">
+            <img src={author.image} alt={author.name} />
+          </div>
+        )}
+        <div class="article-author-info">
+          <span class="author-name">{author.name}</span>
+          <span class="author-role">{author.role}</span>
+        </div>
       </div>
     )}
 
-    <div class="article-meta">
-      {author && (
-        <div class="article-author">
-          {author.image && (
-            <div class="article-author-img">
-              <img src={author.image} alt={author.name} />
-            </div>
-          )}
-          <div class="article-author-info">
-            <span class="author-name">{author.name}</span>
-            <span class="author-role">{author.role}</span>
-          </div>
-        </div>
-      )}
-      
-      {date && (
-        <time class="article-date">{formatDate(date)}</time>
-      )}
-    </div>
+    {isMultimedia && (
+      <div class="article-multimedia-badge">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="23 7 16 12 23 17 23 7"/>
+          <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+        </svg>
+      </div>
+    )}
   </div>
 </article>
 
@@ -85,12 +93,16 @@ const formatDate = (date: Date) => {
   gap: var(--space-m);
 }
 
+.article-image-link {
+  display: block;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
 .article-category {
-  font-size: var(--font-size-small);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-accent);
+  color: var(--color-primary);
   font-weight: 600;
+  text-transform: uppercase;
 }
 
 .article-img {
@@ -100,24 +112,25 @@ const formatDate = (date: Date) => {
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
     transition: transform 0.3s ease;
   }
   
   &:hover img {
-    transform: scale(1.03);
+    transform: scale(1.05);
   }
 }
 
 .article-title {
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: var(--line-height-tight);
+  margin: var(--space-xs) 0;
 }
 
-.article-title--large { font-size: var(--font-size-huge); }
-.article-title--medium { font-size: var(--font-size-xl); }
-.article-title--small { font-size: var(--font-size-large); }
+.article-title--large {
+  font-size: var(--font-size-2xl);
+}
+
+.article-title--medium {
+  font-size: var(--font-size-xl);
+}
 
 .article-link {
   color: inherit;
@@ -136,11 +149,9 @@ const formatDate = (date: Date) => {
 
 .article-meta {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: auto;
-  padding-top: var(--space-m);
-  border-top: 1px solid var(--color-gray-200);
+  gap: var(--space-s);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
 }
 
 .article-author {
@@ -175,5 +186,10 @@ const formatDate = (date: Date) => {
 .article-date {
   font-size: var(--font-size-small);
   color: var(--color-gray-400);
+}
+
+.article-description {
+  color: var(--color-text-secondary);
+  line-height: 1.6;
 }
 </style>
